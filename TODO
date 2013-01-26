@@ -9,3 +9,7 @@
     ...
     Picture.tags_from(Friend)
     ...
+
+* Update travis
+  - Use mysql
+  - Use postgresql
