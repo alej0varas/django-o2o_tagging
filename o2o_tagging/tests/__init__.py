@@ -1,0 +1,2 @@
+from tests_o2otag import O2OTagTest
+from tests_o2otag import O2OTagManagerTest
