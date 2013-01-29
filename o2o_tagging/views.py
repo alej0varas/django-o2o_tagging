@@ -1,3 +1,4 @@
+from django.http import HttpResponseBadRequest
 from django.http import HttpResponse
 from django.views.generic import CreateView
 
@@ -16,4 +17,4 @@ class TagCreateView(CreateView):
         return HttpResponse(status=201)
 
     def form_invalid(self, form):
-        return HttpResponse(status=400)
+        return HttpResponseBadRequest()
