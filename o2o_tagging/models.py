@@ -2,8 +2,9 @@ from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
+from model_utils.managers import PassThroughManager
 
-from .managers import O2OTagManager
+from .managers import O2OTagQuerySet
 
 
 class O2OTag(models.Model):
@@ -19,7 +20,28 @@ class O2OTag(models.Model):
     tagged_content_object = generic.GenericForeignKey("tagged_content_type",
                                                       "tagged_object_id")
 
-    objects = O2OTagManager()
+    tagged_in_content_type = models.ForeignKey(
+        ContentType,
+        related_name="tags")
+    tagged_in_object_id = models.PositiveIntegerField()
+    tagged_in_content_object = generic.GenericForeignKey(
+        "tagged_in_content_type",
+        "tagged_in_object_id")
 
-    tagged = tagged_content_object  # Convenient shortcuts
-    tagger = tagger_content_object  # Convenient shortcuts
+    objects = PassThroughManager.for_queryset_class(O2OTagQuerySet)()
+
+    def __unicode__(self):
+        return u'%s -> %s | %s' % (self.tagger, self.tagged, self.tagged_in)
+
+    # Convenient shortcuts
+    @property
+    def tagged(self):
+        return self.tagged_content_object
+
+    @property
+    def tagger(self):
+        return self.tagger_content_object
+
+    @property
+    def tagged_in(self):
+        return self.tagged_in_content_object

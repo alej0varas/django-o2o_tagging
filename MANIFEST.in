@@ -1,5 +1,3 @@
 include AUTHORS
 include LICENSE
 include README.rst
-recursive-include o2o_tagging/static *
-recursive-include o2o_tagging/templates *

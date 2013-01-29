@@ -10,7 +10,8 @@
 
 Welcome to the documentation for django-o2o_tagging! Use this app to
 tag objects like you tag your friends on facebook, but using any
-objects as the tagger and the tagged.
+objects as the tagger, the tagged and the tagged in. Think of a `User`
+tagging a `Friend` in a `Photo` all of them being different models.
 
 Quick start
 -----------
@@ -19,19 +20,42 @@ Quick start
 
     pip install django-o2o_tagging
 
-2. Create your models and inherit from o2o_tagging.O2OTag::
+#. Add o2o_tagging to your INSTALLED_APPS setting like this::
+
+      INSTALLED_APPS = (
+          ...
+          'o2o_tagging',
+      )
+
+Usage
+-----
+
+Tag your objects::
 
     ...
-    class MyTaggerTagsMytagged(o2o_tagging.O2OTag):
-        tagger = 'myapp.Friend'
-        tagged = 'myotherapp.Picture'
-    ...
+    tag = O2OTag.objects.tag(tagger, tagged, tagged_in)
 
-3. Tag your objects::
+
+Get for tagged in objects::
 
     ...
-    tag = MyTaggerTagsMyTagged.objects.tag(tagger=tagger, tagged=tagged)
+    tags = O2OTag.objects.for_tagged_in(tagged_in)
+
+Get for tagger objects::
+
     ...
+    tags = O2OTag.objects.for_tagger(tagger)
+
+Get for tagged objects::
+
+    ...
+    tags = O2OTag.objects.for_tagged(tagged)
+
+You can then filter::
+
+    ...
+    tags.for_tagger(tagger).for_tagged(tagged)
+
 
 Running the Tests
 -----------------
