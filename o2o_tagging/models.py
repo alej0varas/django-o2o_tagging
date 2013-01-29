@@ -1,6 +1,5 @@
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
-from django.core.urlresolvers import reverse
 from django.db import models
 
 from model_utils.managers import PassThroughManager
