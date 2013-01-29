@@ -1,6 +1,8 @@
 from django.contrib.contenttypes.models import ContentType
 from django.db.models.query import QuerySet
 
+from .signals import o2o_tag_created
+
 
 class O2OTagQuerySet(QuerySet):
     def tag(self, tagger, tagged, tagged_in):
@@ -11,6 +13,7 @@ class O2OTagQuerySet(QuerySet):
         tag = self.create(tagger_content_object=tagger,
                           tagged_content_object=tagged,
                           tagged_in_content_object=tagged_in)
+        o2o_tag_created.send(self.model, instance=tag)
         return tag
 
     def for_tagged_in(self, tagged_in):

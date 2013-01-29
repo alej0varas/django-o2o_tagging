@@ -1,7 +1,11 @@
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.test import TestCase
 
+from mock import call
+from mock_django.signals import mock_signal_receiver
+
 from ..models import O2OTag
+from ..signals import o2o_tag_created
 
 from .models import Tagged
 from .models import TaggedIn
@@ -126,3 +130,15 @@ class O2OTagManagerTest(TestCase):
             tagger).for_tagged(tagged)
 
         self.assertListEqual([tag], list(tags))
+
+    def test_tag_created_signal(self):
+        """Test that O2OTag create view send o2o_tag_created signal"""
+        tagger = Tagger.objects.create()
+        tagged = Tagged.objects.create()
+        tagged_in = TaggedIn.objects.create()
+
+        with mock_signal_receiver(o2o_tag_created) as tag_created_receiver:
+            tag = O2OTag.objects.tag(tagger, tagged, tagged_in)
+            self.assertEqual(tag_created_receiver.call_args_list, [
+                call(signal=o2o_tag_created, sender=O2OTag, instance=tag),
+            ])

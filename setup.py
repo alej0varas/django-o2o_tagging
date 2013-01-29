@@ -37,4 +37,7 @@ setup(
     install_requires=[
         'django-model-utils',
     ],
+    tests_require=[
+        'mock-django',
+    ]
 )
