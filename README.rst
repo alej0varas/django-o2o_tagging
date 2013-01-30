@@ -30,32 +30,48 @@ Quick start
 Usage
 -----
 
-Tag your objects::
+1. Models
 
-    ...
-    tag = O2OTag.objects.tag(tagger, tagged, tagged_in)
+    Tag your objects::
+
+        ...
+        tag = O2OTag.objects.tag(tagger, tagged, tagged_in)
 
 
-Get for tagged in objects::
+    Get for tagged in objects::
 
-    ...
-    tags = O2OTag.objects.for_tagged_in(tagged_in)
+        ...
+        tags = O2OTag.objects.for_tagged_in(tagged_in)
 
-Get for tagger objects::
+    Get for tagger objects::
 
-    ...
-    tags = O2OTag.objects.for_tagger(tagger)
+        ...
+        tags = O2OTag.objects.for_tagger(tagger)
 
-Get for tagged objects::
+    Get for tagged objects::
 
-    ...
-    tags = O2OTag.objects.for_tagged(tagged)
+        ...
+        tags = O2OTag.objects.for_tagged(tagged)
 
-You can then filter::
+    You can then filter::
 
-    ...
-    tags.for_tagger(tagger).for_tagged(tagged)
+        ...
+        tags.for_tagger(tagger).for_tagged(tagged)
 
+#. URLs
+
+    You can add this views to your urls::
+
+        ...
+        ('^tagging/$', include('o2o_tagging')),
+
+#. Views
+
+    o2o_taggin provides two views::
+
+        TagCreateView
+
+        TagsCreateView
 
 Running the Tests
 -----------------

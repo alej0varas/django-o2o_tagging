@@ -12,3 +12,4 @@ Optional
 ========
 
 - Make optional get_success_url through form_valid
+- Make configurable if `tagger` is request.user in TagFormSet save

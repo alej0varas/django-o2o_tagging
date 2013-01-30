@@ -7,6 +7,9 @@ class Tagged(models.Model):
 
 
 class Tagger(models.Model):
+    def is_authenticated(self):
+        return True
+
     def __unicode__(self):
         return u'%s' % self.pk
 
