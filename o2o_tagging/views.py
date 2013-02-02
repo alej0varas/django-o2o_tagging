@@ -1,11 +1,9 @@
 from django.http import HttpResponse
 from django.http import HttpResponseBadRequest
-from django.views.generic import CreateView
 from django.views.generic import FormView
 
 from .forms import TagFormAuthenticated
 from .forms import TagFormAuthenticatedSet
-from .models import O2OTag
 from .signals import o2o_tags_created
 
 
@@ -18,7 +16,7 @@ class TagCreateView(FormView):
 
     def form_valid(self, form):
         super(TagCreateView, self).form_valid(form)
-        tags = form.save(request=self.request)
+        form.save(request=self.request)
         return HttpResponse(status=201)
 
     def form_invalid(self, form):

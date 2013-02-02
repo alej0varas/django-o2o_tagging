@@ -6,7 +6,6 @@ from .models import O2OTag
 class BaseTagFormSet(forms.formsets.BaseFormSet):
     def save(self, request):
         tags = []
-        tagger = None
         for f in self.forms:
             tag = f.save(request=request)
             tags.append(tag.pk)

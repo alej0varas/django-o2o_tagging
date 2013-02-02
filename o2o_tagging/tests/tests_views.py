@@ -101,7 +101,6 @@ class TagsCreateViewTest(TestCase):
 
         with mock_signal_receiver(o2o_tags_created) as tags_created_receiver:
             TagsCreateView.as_view()(request)
-            tags = O2OTag.objects.all()
             self.assertTrue(tags_created_receiver.called)
 
             # this fail assertion is failing but must be correct
