@@ -2,6 +2,7 @@ from django import template
 from django.utils.unittest import TestCase
 
 from mock import Mock
+from mock import NonCallableMock
 from mock import patch
 
 from ..templatetags import TaggedInObjects
@@ -36,7 +37,7 @@ class TaggedInObjectTest(TestCase):
 
     @patch('o2o_tagging.templatetags.O2OTag', **{'objects.return_value': Mock()})
     def test_render(self, O2OTag):
-        tagged_in = Mock()
+        tagged_in = NonCallableMock()
         node = TaggedInObjects('tagged_in', 'tags')
         context = self.ContextMock({
             'tagged_in': tagged_in,
