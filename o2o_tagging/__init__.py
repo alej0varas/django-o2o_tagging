@@ -4,4 +4,4 @@ tagging a `Friend` in a `Photo` all of them being different models.
 
 """
 
-__version__ = '0.2.0'
+__version__ = '0.2.1'
