@@ -2,10 +2,12 @@ import re
 
 from django import template
 
-from .models import O2OTag
+from ..models import O2OTag
+
+register = template.Library()
 
 
-class TaggedInObjects:
+class TaggedInObjects(template.Node):
     def __init__(self, tagged_in, tags):
         self.tagged_in = template.Variable(tagged_in)
         self.tags = template.Variable(tags)
@@ -27,3 +29,6 @@ class TaggedInObjects:
         tags = O2OTag.objects.for_tagged_in(tagged_in)
         context['tags'] = tags
         return ''
+
+
+register.tag('for_tagged_in', TaggedInObjects.tag)

@@ -5,7 +5,7 @@ from mock import Mock
 from mock import NonCallableMock
 from mock import patch
 
-from ..templatetags import TaggedInObjects
+from ..templatetags.o2o_tagging import TaggedInObjects
 
 
 class TaggedInObjectTest(TestCase):
@@ -35,7 +35,7 @@ class TaggedInObjectTest(TestCase):
         self.assertEqual(node.tagged_in, Variable.return_value)
         self.assertEqual(node.tags, Variable.return_value)
 
-    @patch('o2o_tagging.templatetags.O2OTag', **{'objects.return_value': Mock()})
+    @patch('o2o_tagging.templatetags.o2o_tagging.O2OTag', **{'objects.return_value': Mock()})
     def test_render(self, O2OTag):
         tagged_in = NonCallableMock()
         node = TaggedInObjects('tagged_in', 'tags')
@@ -79,3 +79,10 @@ class TaggedInObjectTest(TestCase):
 
         self.assertRaises(template.TemplateSyntaxError,
                           TaggedInObjects.tag, parser, token)
+
+    def test_tag_register(self):
+        from ..templatetags import o2o_tagging
+
+        self.assertTrue(hasattr(o2o_tagging, 'register'))
+        self.assertTrue('for_tagged_in' in o2o_tagging.register.tags)
+        self.assertTrue(o2o_tagging.register.tags['for_tagged_in'] == TaggedInObjects.tag)
