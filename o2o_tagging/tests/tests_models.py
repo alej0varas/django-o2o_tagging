@@ -1,6 +1,8 @@
+from django.conf import settings
 from django.contrib.contenttypes.generic import GenericForeignKey
-from django.test import TestCase
 from django.db import IntegrityError
+from django.test import TestCase
+from django.utils.unittest import skipIf
 
 from mock import call
 from mock_django.signals import mock_signal_receiver
@@ -131,3 +133,17 @@ class O2OTagManagerTest(TestCase):
             self.assertEqual(tag_created_receiver.call_args_list, [
                 call(signal=o2o_tag_created, sender=O2OTag, instance=tag),
             ])
+
+    @skipIf(settings.DATABASES['default']['ENGINE'] == 'django.db.backends.sqlite3', 'Skip for sqlite3')
+    def test_for_tagged_in_nodups(self):
+        """Test for_tagged_in_nodups method. Get all tags where `MyModel` has
+        been used as `tagged_in` removing duplicated entries based on
+        the `tagged` object.
+
+        """
+        tag = O2OTag.objects.tag(self.tagger, self.tagged, self.tagged_in)
+        O2OTag.objects.tag(self.tagger1, self.tagged, self.tagged_in)
+
+        tags = O2OTag.objects.for_tagged_in_nodups(self.tagged_in)
+
+        self.assertListEqual([tag], list(tags))

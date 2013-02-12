@@ -73,6 +73,21 @@ Usage
 
         TagsCreateView
 
+#. Templates
+
+    There are two templatetags available
+
+    1. for_tagged_in::
+
+        {% for_tagged_in object as tags %}
+
+    #. for_tagged_in_nodups::
+
+        {% for_tagged_in_nodups object as tags %}
+
+    Apply distinct on `tagged_object_id` in order to get only one
+    tagged user.
+
 Running the Tests
 -----------------
 
