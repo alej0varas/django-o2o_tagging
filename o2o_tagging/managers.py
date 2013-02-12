@@ -39,3 +39,13 @@ class O2OTagQuerySet(QuerySet):
             tagged_model)
         return self.filter(tagged_content_type=tagged_content_type,
                            tagged_object_id=tagged.pk)
+
+    def for_tagged_in_nodups(self, tagged_in):
+        """Get all tags that belogns to `tagged_in` distint on
+        `tagged` object"""
+        tagged_in_model = tagged_in.__class__
+        tagged_in_content_type = ContentType.objects.get_for_model(
+            tagged_in_model)
+        return self.filter(tagged_in_content_type=tagged_in_content_type,
+                           tagged_in_object_id=tagged_in.pk
+                           ).distinct('tagged_object_id')
